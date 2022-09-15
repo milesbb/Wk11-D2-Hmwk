@@ -12,8 +12,9 @@ const Favourites = () => {
   useEffect(() => {}, []);
 
   return (
-    <div className="w-75 text-center mx-auto"> 
-      <h1>FAVOURITES</h1>
+    <div className="w-75 text-center mx-auto my-3"> 
+      <h1 className="mt-3">Favourites</h1>
+      {(favourites.length === 0)? <h4 className="my-5">No favourites yet, go and find some!</h4> : 
       <ul>
         {favourites.map((company, i) => {
           return (
@@ -27,6 +28,9 @@ const Favourites = () => {
           );
         })}
       </ul>
+
+      }
+      
       <Link to="/">Back to Search</Link>
     </div>
   );
