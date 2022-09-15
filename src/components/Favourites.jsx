@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeFavourite } from "../features/favourite/favouriteSlice";
 import dog from "../assets/saddog3.png"
+import "../styles/search.css";
 
 const Favourites = () => {
   const favourites = useSelector((state) => state.favourite.favourites);
@@ -26,12 +27,11 @@ const Favourites = () => {
             return (
               <li
                 key={i}
-                className="mx-0 mt-3 p-3"
+                className="mx-0 mt-3 p-3 searchItem d-flex"
                 style={{ border: "1px solid #00000033", borderRadius: 4 }}
               >
-                <Link to="/${company}">{company}</Link>
+                <Link to={"/"+company} className="mx-auto">{company}</Link>
                 <Button
-                  className="ml-5"
                   variant="danger"
                   onClick={() => {
                     dispatch(removeFavourite(company));
