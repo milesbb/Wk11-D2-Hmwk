@@ -7,6 +7,7 @@ import {
   addFavourite,
   removeFavourite,
 } from "../features/favourite/favouriteSlice";
+import "../styles/search.css";
 
 const CompanySearchResults = () => {
   const [jobs, setJobs] = useState([]);
@@ -38,41 +39,45 @@ const CompanySearchResults = () => {
     <Container className="mt-4">
       <Row>
         <Col>
-          <h1 className="mb-5">{params.companyName} Search Results
-          
-          {favourites.includes(params.companyName) ? (
-            <Button
-            className="ml-4"
-              onClick={() => {
-                dispatch(removeFavourite(params.companyName));
-              }}
-              variant="danger"
-            >
-              Unfavourite
-            </Button>
-          ) : (
-            <Button
-            className="ml-4"
-            onClick={() => {
-              dispatch(addFavourite(params.companyName));
-            }}
-          >
-            Favourite
-          </Button>
-          )}
+          <h1 className="mb-5">
+            {params.companyName} Search Results
+            {favourites.includes(params.companyName) ? (
+              <Button
+                className="ml-4"
+                onClick={() => {
+                  dispatch(removeFavourite(params.companyName));
+                }}
+                variant="danger"
+              >
+                Unfavourite
+              </Button>
+            ) : (
+              <Button
+                className="ml-4"
+                onClick={() => {
+                  dispatch(addFavourite(params.companyName));
+                }}
+              >
+                Favourite
+              </Button>
+            )}
           </h1>
-          
-          
-
-          
-          {jobs.map((jobData) => (
-            <Job key={jobData._id} data={jobData} />
-          ))}
-          <div className="mt-4">
-          <span ><Link className="ml-2" to="/">Back to Search</Link><Link className="ml-5" to="/favourites">Go to Favourites</Link></span>
+          <div className="searchContainer p-2">
+            {jobs.map((jobData) => (
+              <Job key={jobData._id} data={jobData} />
+            ))}
           </div>
-          
-          
+
+          <div className="mt-4">
+            <span>
+              <Link className="ml-2" to="/">
+                Back to Search
+              </Link>
+              <Link className="ml-5" to="/favourites">
+                Go to Favourites
+              </Link>
+            </span>
+          </div>
         </Col>
       </Row>
     </Container>

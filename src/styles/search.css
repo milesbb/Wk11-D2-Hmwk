@@ -1,0 +1,12 @@
+.searchItem {
+  background-color: #f7faf8;
+  transition: background-color 0.1s;
+}
+.searchItem:hover {
+  background-color: white;
+}
+
+.searchContainer {
+  background: #e1e3e1;
+  border-radius: 1%;
+}

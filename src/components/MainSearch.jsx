@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Job from "./Job";
+import '../styles/search.css'
 
 const MainSearch = () => {
   const [query, setQuery] = useState("");
   const [jobs, setJobs] = useState([]);
-
-  
 
   const baseEndpoint = "https://strive-jobs-api.herokuapp.com/jobs?search=";
 
@@ -50,9 +49,11 @@ const MainSearch = () => {
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          {jobs.map((jobData) => (
-            <Job key={jobData._id} data={jobData} />
-          ))}
+          <div className="p-2 mt-4 searchContainer">
+            {jobs.map((jobData) => (
+              <Job key={jobData._id} data={jobData} />
+            ))}
+          </div>
         </Col>
       </Row>
     </Container>
