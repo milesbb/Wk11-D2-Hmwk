@@ -1,14 +1,34 @@
 import { useState } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Spinner, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Job from "./Job";
-import '../styles/search.css'
+import "../styles/search.css";
+import { getCompanies } from "../redux/actions/loadCompanies";
+import { connect } from "react-redux";
 
-const MainSearch = () => {
+const mapStateToProps = (state) => {
+  return {
+    companies: state.companies.companies.data,
+    error1: state.error1,
+    loading1: state.loading1,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCompaniesList: (query) => {
+      dispatch(getCompanies(query));
+    },
+  };
+};
+
+const MainSearch = ({
+  companies = [],
+  getCompaniesList,
+  error1 = false,
+  loading1 = false,
+}) => {
   const [query, setQuery] = useState("");
-  const [jobs, setJobs] = useState([]);
-
-  const baseEndpoint = "https://strive-jobs-api.herokuapp.com/jobs?search=";
 
   const handleChange = (e) => {
     setQuery(e.target.value);
@@ -17,17 +37,7 @@ const MainSearch = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(baseEndpoint + query + "&limit=20");
-      if (response.ok) {
-        const { data } = await response.json();
-        setJobs(data);
-      } else {
-        alert("Error fetching results");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    getCompaniesList(query);
   };
 
   return (
@@ -49,15 +59,28 @@ const MainSearch = () => {
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          <div className="p-2 mt-4 searchContainer">
-            {jobs.map((jobData) => (
-              <Job key={jobData._id} data={jobData} />
-            ))}
-          </div>
+          {loading1 && (
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          )}
+
+          {!loading1 && error1 && (
+            <Alert className="m-1" variant="danger">
+              There was an error retrieving the companies
+            </Alert>
+          )}
+          {!loading1 && !error1 && (companies.length > 0) && (
+            <div className="p-2 mt-4 searchContainer">
+              {companies.map((jobData) => (
+                <Job key={jobData._id} data={jobData} />
+              ))}
+            </div>
+          )}
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default MainSearch;
+export default connect(mapStateToProps, mapDispatchToProps)(MainSearch);
