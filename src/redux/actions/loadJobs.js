@@ -22,13 +22,13 @@ export const getJobs = (companyName) => {
           payload: jobs,
         });
       } else {
-        console.log("error");
+        console.log("error with initial fetch");
         dispatch({
           type: GET_JOBS_ERROR,
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log("try catch error:", error);
       dispatch({
         type: GET_JOBS_ERROR,
       });

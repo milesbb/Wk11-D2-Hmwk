@@ -22,13 +22,13 @@ export const getCompanies = (query) => {
           payload: companies,
         });
       } else {
-        console.log("error");
+        console.log("error with initial fetch");
         dispatch({
           type: GET_COMPANIES_ERROR,
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log("try catch error:", error);
       dispatch({
         type: GET_COMPANIES_ERROR,
       });
