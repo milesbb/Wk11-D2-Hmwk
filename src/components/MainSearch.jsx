@@ -9,8 +9,8 @@ import { connect } from "react-redux";
 const mapStateToProps = (state) => {
   return {
     companies: state.companies.companies.data,
-    error1: state.error1,
-    loading1: state.loading1,
+    error1: state.companies.error1,
+    loading1: state.companies.loading1,
   };
 };
 
@@ -60,7 +60,7 @@ const MainSearch = ({
         </Col>
         <Col xs={10} className="mx-auto mb-5">
           {loading1 && (
-            <Spinner animation="border" role="status">
+            <Spinner className="" animation="border" role="status">
               <span className="sr-only">Loading...</span>
             </Spinner>
           )}

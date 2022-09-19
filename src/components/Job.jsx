@@ -5,7 +5,7 @@ import "../styles/search.css";
 
 const mapStateToProps = (state) => {
   return {
-    favourites: state.favourites,
+    favourites: state.index.favourites,
   };
 };
 
