@@ -1,28 +1,42 @@
 import { useEffect } from "react";
 import { Button, Image } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { removeFavourite } from "../features/favourite/favouriteSlice";
-import dog from "../assets/saddog3.png"
+import dog from "../assets/saddog3.png";
 import "../styles/search.css";
 
-const Favourites = () => {
-  const favourites = useSelector((state) => state.favourite.favourites);
-  console.log(favourites);
-  const dispatch = useDispatch();
+const mapStateToProps = (state) => {
+  return {
+    favourites: state.favourites,
+  };
+};
 
-  useEffect(() => {}, []);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeFromFavourites: (indexToRemove) => {
+      dispatch({
+        type: "REMOVE_FROM_FAVOURITES",
+        payload: indexToRemove,
+      });
+    },
+  };
+};
+
+const Favourites = ({favourites = [], removeFromFavourites}) => {
+  console.log(favourites);
+
+  useEffect(() => {}, [favourites]);
 
   return (
     <div className="w-75 text-center mx-auto my-3">
       <h1 className="mt-3">Favourites</h1>
       {favourites.length === 0 ? (
         <div className="my-5">
-          <h4 >No favourites yet, go and find some!</h4>
-          <Image src={dog} style={{width: "10rem"}} rounded />
+          <h4>No favourites yet, go and find some!</h4>
+          <Image src={dog} style={{ width: "10rem" }} rounded />
         </div>
       ) : (
-        <ul style={{listStyleType: "none"}}>
+        <ul style={{ listStyleType: "none" }}>
           {favourites.map((company, i) => {
             return (
               <li
@@ -30,11 +44,13 @@ const Favourites = () => {
                 className="mx-0 mt-3 p-3 searchItem d-flex"
                 style={{ border: "1px solid #00000033", borderRadius: 4 }}
               >
-                <Link to={"/"+company} className="mx-auto">{company}</Link>
+                <Link to={"/" + company} className="mx-auto">
+                  {company}
+                </Link>
                 <Button
                   variant="danger"
                   onClick={() => {
-                    dispatch(removeFavourite(company));
+                    removeFromFavourites(favourites.indexOf(company));
                   }}
                 >
                   Remove
@@ -50,4 +66,4 @@ const Favourites = () => {
   );
 };
 
-export default Favourites;
+export default connect(mapStateToProps, mapDispatchToProps)(Favourites);

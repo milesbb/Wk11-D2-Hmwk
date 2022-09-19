@@ -1,19 +1,37 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Job from "./Job";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import {
-  addFavourite,
-  removeFavourite,
-} from "../features/favourite/favouriteSlice";
 import "../styles/search.css";
+import { connect } from "react-redux";
 
-const CompanySearchResults = () => {
+const mapStateToProps = state => {
+  return {
+    favourites: state.favourites,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    removeFromFavourites: indexToRemove => {
+      dispatch({
+        type: "REMOVE_FROM_FAVOURITES",
+        payload: indexToRemove,
+      });
+    },
+
+    addToFavourites: company => {
+      dispatch({
+        type: "ADD_TO_FAVOURITES",
+        payload: company,
+      });
+    },
+  };
+};
+
+const CompanySearchResults = ({ favourites = [], removeFromFavourites, addToFavourites }) => {
   const [jobs, setJobs] = useState([]);
   const params = useParams();
-  const dispatch = useDispatch();
-  const favourites = useSelector((state) => state.favourite.favourites);
 
   const baseEndpoint = "https://strive-jobs-api.herokuapp.com/jobs?company=";
 
@@ -45,7 +63,7 @@ const CompanySearchResults = () => {
               <Button
                 className="ml-4"
                 onClick={() => {
-                  dispatch(removeFavourite(params.companyName));
+                  removeFromFavourites(favourites.indexOf(params.companyName));
                 }}
                 variant="danger"
               >
@@ -55,7 +73,7 @@ const CompanySearchResults = () => {
               <Button
                 className="ml-4"
                 onClick={() => {
-                  dispatch(addFavourite(params.companyName));
+                  addToFavourites(params.companyName);
                 }}
               >
                 Favourite
@@ -84,4 +102,4 @@ const CompanySearchResults = () => {
   );
 };
 
-export default CompanySearchResults;
+export default connect(mapStateToProps, mapDispatchToProps)(CompanySearchResults);
