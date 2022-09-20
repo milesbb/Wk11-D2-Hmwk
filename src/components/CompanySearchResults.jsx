@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import "../styles/search.css";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { getJobs } from "../redux/actions/loadJobs";
+import Loading from "./Loading";
 
 // const mapStateToProps = (state) => {
 //   return {
@@ -89,9 +90,7 @@ const CompanySearchResults = () => {
             )}
           </h1>
           {loading2 && (
-            <Spinner className="" animation="border" role="status">
-              <span className="sr-only">Loading...</span>
-            </Spinner>
+            <Loading />
           )}
 
           {!loading2 && error2 && (

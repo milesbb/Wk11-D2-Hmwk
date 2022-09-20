@@ -5,6 +5,7 @@ import Job from "./Job";
 import "../styles/search.css";
 import { getCompanies } from "../redux/actions/loadCompanies";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "./Loading";
 
 // const mapStateToProps = (state) => {
 //   return {
@@ -61,9 +62,7 @@ const MainSearch = () => {
         </Col>
         <Col xs={10} className="mx-auto mb-5">
           {loading1 && (
-            <Spinner className="" animation="border" role="status">
-              <span className="sr-only">Loading...</span>
-            </Spinner>
+            <Loading />
           )}
 
           {!loading1 && error1 && (
