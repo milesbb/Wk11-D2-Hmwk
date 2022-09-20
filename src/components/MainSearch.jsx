@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Spinner, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Job from "./Job";
@@ -70,7 +70,7 @@ const MainSearch = ({
               There was an error retrieving the companies
             </Alert>
           )}
-          {!loading1 && !error1 && (companies.length > 0) && (
+          {!loading1 && !error1 && companies.length > 0 && (
             <div className="p-2 mt-4 searchContainer">
               {companies.map((jobData) => (
                 <Job key={jobData._id} data={jobData} />
