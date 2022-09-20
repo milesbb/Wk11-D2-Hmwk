@@ -1,15 +1,17 @@
 import { Row, Col } from "react-bootstrap";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "../styles/search.css";
 
-const mapStateToProps = (state) => {
-  return {
-    favourites: state.index.favourites,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     favourites: state.index.favourites,
+//   };
+// };
 
-const Job = ({ data, favourites = [] }) => {
+const Job = ({ data }) => {
+  const favourites = useSelector((state) => state.index.favourites);
+
   return (
     <Row
       className="mx-0 mt-3 p-3 searchItem"
@@ -41,4 +43,4 @@ const Job = ({ data, favourites = [] }) => {
   );
 };
 
-export default connect(mapStateToProps)(Job);
+export default Job;

@@ -14,6 +14,7 @@ console.log(process.env)
 const persistConfig = {
   key: "root",
   storage: localforage,
+  // uses indexedDB
   transforms: [
     encryptTransform({
       secretKey: process.env.REACT_APP_SECRET_KEY,

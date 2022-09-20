@@ -1,29 +1,31 @@
 import { useEffect } from "react";
 import { Button, Image } from "react-bootstrap";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import dog from "../assets/saddog3.png";
 import "../styles/search.css";
 
-const mapStateToProps = (state) => {
-  return {
-    favourites: state.index.favourites,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     favourites: state.index.favourites,
+//   };
+// };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    removeFromFavourites: (indexToRemove) => {
-      dispatch({
-        type: "REMOVE_FROM_FAVOURITES",
-        payload: indexToRemove,
-      });
-    },
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     removeFromFavourites: (indexToRemove) => {
+//       dispatch({
+//         type: "REMOVE_FROM_FAVOURITES",
+//         payload: indexToRemove,
+//       });
+//     },
+//   };
+// };
 
-const Favourites = ({favourites = [], removeFromFavourites}) => {
-  console.log(favourites);
+const Favourites = () => {
+
+  const dispatch = useDispatch();
+  const favourites = useSelector((state) => state.index.favourites);
 
   useEffect(() => {}, [favourites]);
 
@@ -50,7 +52,10 @@ const Favourites = ({favourites = [], removeFromFavourites}) => {
                 <Button
                   variant="danger"
                   onClick={() => {
-                    removeFromFavourites(favourites.indexOf(company));
+                    dispatch({
+                      type: "REMOVE_FROM_FAVOURITES",
+                      payload: favourites.indexOf(company),
+                    });
                   }}
                 >
                   Remove
@@ -66,4 +71,4 @@ const Favourites = ({favourites = [], removeFromFavourites}) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Favourites);
+export default Favourites;

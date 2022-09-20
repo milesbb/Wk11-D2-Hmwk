@@ -1,34 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, Row, Col, Form, Spinner, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Job from "./Job";
 import "../styles/search.css";
 import { getCompanies } from "../redux/actions/loadCompanies";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const mapStateToProps = (state) => {
-  return {
-    companies: state.companies.companies.data,
-    error1: state.companies.error1,
-    loading1: state.companies.loading1,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     companies: state.companies.companies.data,
+//     error1: state.companies.error1,
+//     loading1: state.companies.loading1,
+//   };
+// };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getCompaniesList: (query) => {
-      dispatch(getCompanies(query));
-    },
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getCompaniesList: (query) => {
+//       dispatch(getCompanies(query));
+//     },
+//   };
+// };
 
-const MainSearch = ({
-  companies = [],
-  getCompaniesList,
-  error1 = false,
-  loading1 = false,
-}) => {
+const MainSearch = () => {
   const [query, setQuery] = useState("");
+  const dispatch = useDispatch()
+  const companies = useSelector((state) => state.companies.companies.data);
+  const error1 = useSelector((state) => state.companies.error1);
+  const loading1 = useSelector((state) => state.companies.loading1);
+
+  console.log(companies)
 
   const handleChange = (e) => {
     setQuery(e.target.value);
@@ -36,8 +37,8 @@ const MainSearch = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    getCompaniesList(query);
+    dispatch(getCompanies(query))
+    // getCompaniesList(query);
   };
 
   return (
@@ -70,7 +71,7 @@ const MainSearch = ({
               There was an error retrieving the companies
             </Alert>
           )}
-          {!loading1 && !error1 && companies.length > 0 && (
+          {!loading1 && !error1 && companies !== undefined && (
             <div className="p-2 mt-4 searchContainer">
               {companies.map((jobData) => (
                 <Job key={jobData._id} data={jobData} />
@@ -83,4 +84,4 @@ const MainSearch = ({
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainSearch);
+export default MainSearch
